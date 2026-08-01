@@ -1,0 +1,4 @@
+interface:
+  display_name: "Clinical AI Agent Research"
+  short_description: "Clinical prediction and multi-agent research workflow"
+  default_prompt: "Use $clinical-ai-agent-research to design and evaluate a rigorous clinical prediction or multi-agent research study."

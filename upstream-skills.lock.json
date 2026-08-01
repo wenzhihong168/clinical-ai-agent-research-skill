@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "repositories": [
+    {
+      "name": "K-Dense-AI/scientific-agent-skills",
+      "url": "https://github.com/K-Dense-AI/claude-scientific-skills.git",
+      "commit": "ab2f84ab10597c59fac186ecda6d5edd5dcc8b92",
+      "skills": [
+        { "source": "skills/paper-lookup", "destination": "paper-lookup" },
+        { "source": "skills/scientific-writing", "destination": "scientific-writing" },
+        { "source": "skills/peer-review", "destination": "peer-review" },
+        { "source": "skills/statistical-analysis", "destination": "statistical-analysis" },
+        { "source": "skills/scientific-visualization", "destination": "scientific-visualization" },
+        { "source": "skills/clinical-decision-support", "destination": "clinical-decision-support" },
+        { "source": "skills/experimental-design", "destination": "experimental-design" },
+        { "source": "skills/scikit-learn", "destination": "scikit-learn" },
+        { "source": "skills/pytorch-lightning", "destination": "pytorch-lightning" }
+      ]
+    },
+    {
+      "name": "Orchestra-Research/AI-Research-SKILLs",
+      "url": "https://github.com/Orchestra-Research/AI-Research-SKILLs.git",
+      "commit": "773a52944ba4747a18bd4ae9ade53fff041adcbc",
+      "skills": [
+        { "source": "20-ml-paper-writing/ml-paper-writing", "destination": "ml-paper-writing" },
+        { "source": "20-ml-paper-writing/academic-plotting", "destination": "academic-plotting" },
+        { "source": "14-agents/langchain", "destination": "langchain" },
+        { "source": "14-agents/llamaindex", "destination": "llamaindex" },
+        { "source": "14-agents/crewai", "destination": "crewai-multi-agent" },
+        { "source": "11-evaluation/lm-evaluation-harness", "destination": "evaluating-llms-harness" }
+      ]
+    }
+  ]
+}

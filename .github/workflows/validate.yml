@@ -1,0 +1,59 @@
+name: validate
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate shell installer syntax
+        run: bash -n install.sh
+
+      - name: Validate PowerShell installer syntax
+        shell: pwsh
+        run: |
+          $tokens = $null
+          $errors = $null
+          [System.Management.Automation.Language.Parser]::ParseFile(
+            (Resolve-Path "./install.ps1"),
+            [ref]$tokens,
+            [ref]$errors
+          ) | Out-Null
+          if ($errors.Count -gt 0) {
+            $errors | ForEach-Object { Write-Error $_.Message }
+            exit 1
+          }
+
+      - name: Validate skill structure and lock manifest
+        run: |
+          python - <<'PY'
+          import json
+          import pathlib
+          import re
+
+          root = pathlib.Path("clinical-ai-agent-research")
+          skill = (root / "SKILL.md").read_text(encoding="utf-8")
+          assert re.match(r"^---\nname: clinical-ai-agent-research\ndescription: .+?\n---\n", skill, re.S)
+          assert (root / "agents" / "openai.yaml").is_file()
+          for name in (
+              "clinical-evaluation.md",
+              "multimodal-and-agent-evaluation.md",
+              "reporting-and-figures.md",
+              "upstream-provenance.md",
+          ):
+              assert (root / "references" / name).is_file(), name
+
+          lock = json.loads(pathlib.Path("upstream-skills.lock.json").read_text(encoding="utf-8"))
+          assert lock["schema_version"] == 1
+          assert len(lock["repositories"]) == 2
+          assert sum(len(repo["skills"]) for repo in lock["repositories"]) == 15
+          for repo in lock["repositories"]:
+              assert re.fullmatch(r"[0-9a-f]{40}", repo["commit"])
+          PY
